@@ -23,15 +23,15 @@ pipeline {
 		stage ('depoly on slave htppd'){
 		agent{
 				node {
-					label "qa"
-					customWorkspace "/mnt/slave"
+					label 'qa'
+					
 				}
 			}
 			steps {
 				sh "sudo yum install httpd -y"
 				sleep 5
 				sh "sudo service httpd start"
-				sh "sudo cp -r index.html /var/www/html"
+				sh "sudo cp -r /mnt/slave/index.html /var/www/html"
 			}
 		}	
 	}
