@@ -6,18 +6,7 @@ pipeline {
 		}
 	}	
 	stages {
-		stage ('slave permision'){
-			agent{
-				node {
-					label "qa"
-					customWorkspace "/mnt/slave"
-				}
-			}
-			steps{
-				sh "sudo mkdir 22q1"
-				sh "sudo chmod -R 777 /mnt/slave/22q1"
-			}
-		}
+		
 		stage ('copy to slave'){
 			agent {
 		node{
