@@ -6,7 +6,18 @@ pipeline {
 		}
 	}	
 	stages {
-		
+		stage ('slave permision'){
+			agent{
+				node {
+					label "qa"
+					customWorkspace "/mnt/slave"
+				}
+			}
+			steps{
+				sh "sudo mkdir 22q1"
+				sh "sudo chmod -R 777 /mnt/slave/22q1"
+			}
+		}
 		stage ('copy to slave'){
 			agent {
 		node{
@@ -16,6 +27,7 @@ pipeline {
 	}	
 			steps{
 			sh "cp -r /root/california.pem ."
+			sh "chmod -R 777 index.html"
 			sh "scp -i california.pem index.html ec2-user@172.31.6.107:/mnt/slave"
 			}	
 		}
@@ -30,7 +42,6 @@ pipeline {
 				sh "sudo yum install httpd -y"
 				sleep 5
 				sh "sudo service httpd start"
-				sh "sudo chmod -R 777 index.html"
 				sh "sudo cp -r index.html /var/www/html"
 			}
 		}	
